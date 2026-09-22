@@ -1,4 +1,4 @@
-"""Economia Global: interface Streamlit para o seminário de Economia.
+"""Análise econômica global: interface Streamlit para o seminário de Economia.
 Execute: python -m streamlit run app.py
 """
 from pathlib import Path
@@ -9,7 +9,7 @@ import streamlit as st
 from analytics import carregar, nome, numero, serie_pais, composicao, amostra_renda, SETORES, ROTULOS
 import charts
 
-st.set_page_config(page_title='Atlas · Economia Global',page_icon='◈',layout='wide',initial_sidebar_state='expanded')
+st.set_page_config(page_title='Análise econômica global',page_icon='◈',layout='wide',initial_sidebar_state='expanded')
 RAIZ = Path(__file__).resolve().parent
 tokens = RAIZ.joinpath('design-system-economia-global/tokens.css').read_text(encoding='utf-8')
 estilos = RAIZ.joinpath('style.css').read_text(encoding='utf-8')
@@ -41,7 +41,7 @@ def resetar():
 def mudar_pagina(indice): ss.pagina=PAGINAS[indice]
 
 with st.sidebar:
-    st.markdown('<div class="sidebar-brand"><span class="brand-mark" aria-hidden="true">A</span><div><div class="sidebar-title">ATLAS</div><div class="sidebar-sub">ECONOMIA GLOBAL</div></div></div><div class="sidebar-section">NAVEGAÇÃO</div>',unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-brand"><span class="brand-mark" aria-hidden="true">◈</span><div><div class="sidebar-title">Análise econômica global</div></div></div><div class="sidebar-section">NAVEGAÇÃO</div>',unsafe_allow_html=True)
     st.radio('Análises',PAGINAS,key='pagina',label_visibility='collapsed')
     st.divider()
     st.markdown('<div class="sidebar-section">SOBRE A BASE</div>',unsafe_allow_html=True)
@@ -61,11 +61,11 @@ PERGUNTAS=['Tamanho, renda e inserção internacional em uma visão conjunta.',
            'Como consumo, investimento e comércio exterior se conciliam com o PIB?',
            'Qual é o peso dos fluxos comerciais nas economias selecionadas?',
            'Como a renda por habitante se relaciona com a participação agrícola?']
-st.markdown(f'<div class="atlas-topbar"><span>ATLAS <span class="topbar-divider">/</span> <strong>{TITULOS[idx]}</strong></span><span class="topbar-status"><span class="status-dot"></span> BASE HISTÓRICA {d.ano.min()}–{d.ano.max()}</span></div>',unsafe_allow_html=True)
+st.markdown(f'<div class="dashboard-topbar"><span>Análise econômica global <span class="topbar-divider">/</span> <strong>{TITULOS[idx]}</strong></span><span class="topbar-status"><span class="status-dot"></span> BASE HISTÓRICA {d.ano.min()}–{d.ano.max()}</span></div>',unsafe_allow_html=True)
 st.markdown(f'<div class="page-eyebrow"><span class="eyebrow-line"></span> INTELIGÊNCIA ECONÔMICA <span class="eyebrow-separator">/</span> ANÁLISE {idx+1:02d}</div>',unsafe_allow_html=True)
 st.title(TITULOS[idx])
 st.markdown(f'<div class="question">{PERGUNTAS[idx]}</div>',unsafe_allow_html=True)
-with st.container(border=True,key='atlas_filters'):
+with st.container(border=True,key='dashboard_filters'):
     filtro_pais,filtro_ano,filtro_reset=st.columns([2.2,1.1,1.3],vertical_alignment='bottom')
     with filtro_pais:
         st.selectbox('País em foco',sorted(d.pais.unique(),key=nome),format_func=nome,key='pais')
@@ -113,7 +113,7 @@ def delta(col,percent=False):
     return f'{numero((f[col]/prev[col]-1)*100)}% ante {ano-1}'
 
 if idx==0:
-    st.markdown(f'<div class="atlas-section-heading"><h2>Indicadores principais</h2><span>{escape(nome(pais))} / {ano}</span></div>',unsafe_allow_html=True)
+    st.markdown(f'<div class="dashboard-section-heading"><h2>Indicadores principais</h2><span>{escape(nome(pais))} / {ano}</span></div>',unsafe_allow_html=True)
     cards=[('PIB registrado',numero(f.pib/1e9),'bilhões de u.m. da base','pib',False),
            ('População',numero(f.populacao/1e6),'milhões de habitantes','populacao',False),
            ('RNB por habitante',numero(f.rnb_pc,0),'USD por habitante','rnb_pc',False),
@@ -211,4 +211,4 @@ a,b,c=st.columns([1,2,1])
 with a:st.button('← Anterior',disabled=idx==0,on_click=mudar_pagina,args=(max(0,idx-1),),use_container_width=True)
 with b:st.caption(f'Página {idx+1} de 6 · {nome(pais)} · {ano}')
 with c:st.button('Próxima →',disabled=idx==5,on_click=mudar_pagina,args=(min(5,idx+1),),use_container_width=True)
-st.markdown('<div class="footer">Global Economy Indicators · Dados históricos até 2021 · Cálculos próprios para fins acadêmicos</div>',unsafe_allow_html=True)
+st.markdown('<div class="footer">Análise econômica global · Dados históricos até 2021 · Cálculos próprios para fins acadêmicos</div>',unsafe_allow_html=True)

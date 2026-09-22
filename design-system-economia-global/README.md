@@ -1,4 +1,4 @@
-# Atlas — Design System para Economia Global
+# Design System — Análise econômica global
 
 Sistema visual aplicado ao dashboard Streamlit de indicadores econômicos. Abra [index.html](index.html) no navegador para ver a prévia e os componentes; execute `app.py` para usar o painel com dados e filtros interativos.
 
@@ -7,7 +7,7 @@ Sistema visual aplicado ao dashboard Streamlit de indicadores econômicos. Abra 
 - **Finex:** precisão visual, contraste e acentos luminosos em dados.
 - **Monolith:** superfícies escuras, tipografia de destaque e composição editorial.
 - **SaaS Developer:** componentes densos, navegação clara e estados de interface.
-- **Atlas:** combinação própria voltada à leitura analítica, sem animações ou dependências das referências.
+- **Sistema final:** combinação própria voltada à leitura analítica, sem animações ou dependências das referências.
 
 ## Arquivos
 
@@ -43,7 +43,7 @@ Navegação lateral, cabeçalho, filtros, botões primário e secundário, cart�
 
 ## Integração com Streamlit
 
-`app.py` carrega `tokens.css` junto com `style.css`. O tema em `.streamlit/config.toml` e a versão Stlite em `dist/mount-cdn.js` usam as mesmas cores. `charts.py` e `analytics.py` usam a paleta Atlas nos gráficos. O HTML continua sendo um catálogo visual; os dados e a lógica interativa ficam no app Python. A prévia usa valores reais do Brasil em 2021 presentes na base do projeto, mas não é um painel interativo.
+`app.py` carrega `tokens.css` junto com `style.css`. O tema em `.streamlit/config.toml` e a versão Stlite em `dist/mount-cdn.js` usam as mesmas cores. `charts.py` e `analytics.py` usam a paleta do design system nos gráficos. O HTML continua sendo um catálogo visual; os dados e a lógica interativa ficam no app Python. A prévia usa valores reais do Brasil em 2021 presentes na base do projeto, mas não é um painel interativo.
 
 ## Acessibilidade
 

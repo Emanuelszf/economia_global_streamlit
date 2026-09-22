@@ -1,4 +1,4 @@
-# Economia Global — dashboard Streamlit
+# Análise econômica global — dashboard Streamlit
 
 Painel acadêmico com seis páginas: panorama, evolução econômica, estrutura produtiva, composição da demanda, setor externo e renda versus estrutura. Seleção inicial: Brasil, 2021. Dados fornecidos ao projeto: 1970–2021.
 
@@ -52,7 +52,7 @@ Após instalar as dependências, os dados e gráficos são locais. Não é neces
 - `app.py`: interface, navegação, filtros, textos e exportações.
 - `analytics.py`: leitura, validação e cálculo dos indicadores.
 - `charts.py`: figuras Plotly.
-- `design-system-economia-global/tokens.css`, `style.css` e `.streamlit/config.toml`: design system Atlas e tema escuro.
+- `design-system-economia-global/tokens.css`, `style.css` e `.streamlit/config.toml`: design system e tema escuro.
 - `dados/global_economy_indicators.csv`: base original, sem alterações.
 
 O notebook anterior continua útil como material de estudo. O dashboard usa as mesmas definições e preserva valores ausentes.
