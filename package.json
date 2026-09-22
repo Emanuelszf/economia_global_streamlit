@@ -1,0 +1,1 @@
+{"name":"economia-global-streamlit","private":true,"type":"module","scripts":{"dev":"vite --host 0.0.0.0 --port 5173","build":"python build_web.py"},"devDependencies":{"vite":"6.4.1"}}

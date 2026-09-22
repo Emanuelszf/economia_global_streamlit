@@ -1,0 +1,25 @@
+{
+  "source": "Global Economy Indicators.csv, arquivo fornecido ao projeto",
+  "source_sha256": "858e69c3d62a9272513e9d49ed69fa4cf9a141e7bc6dd3d0a45330d235ef8d9a",
+  "grain": "país/economia × ano",
+  "rows": 10512,
+  "economies": 220,
+  "period": [
+    1970,
+    2021
+  ],
+  "gdp_unit": "não documentada no CSV",
+  "gni_unit": "USD conforme nome da coluna",
+  "price_basis": "não documentada no CSV",
+  "method_files": [
+    "analytics.py",
+    "charts.py",
+    "app.py"
+  ],
+  "runtime_web": {
+    "stlite": "0.85.1",
+    "streamlit": "1.45.1",
+    "pyodide": "0.27.6",
+    "plotly": "5.24.1"
+  }
+}
