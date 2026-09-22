@@ -4,6 +4,8 @@ import shutil,json
 root=Path(__file__).resolve().parent;dist=root/'dist';dist.mkdir(exist_ok=True)
 for name in ['app.py','analytics.py','charts.py','style.css']:
     shutil.copyfile(root/name,dist/name)
+(dist/'design-system-economia-global').mkdir(exist_ok=True)
+shutil.copyfile(root/'design-system-economia-global/tokens.css',dist/'design-system-economia-global/tokens.css')
 (dist/'dados').mkdir(exist_ok=True)
 shutil.copyfile(root/'dados/global_economy_indicators.csv',dist/'dados/global_economy_indicators.csv')
 print('Arquivos Python e dados atualizados na versão web.')

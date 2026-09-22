@@ -1,0 +1,9 @@
+- **Tailwind CSS** — utility-first CSS framework loaded via the bundled CDN runtime, used for layout, spacing, color and typography
+- **Tailwind plugin (custom)** — registers `rotate-x/y/z`, `perspective-*` and `transform-style-*` 3D utilities consumed by hero/feature cards
+- **Iconify** — `<iconify-icon>` web component runtime used for navigation, IDE chrome, feature cards, network panel, footer, integration logos (lucide, solar, logos, simple-icons icon sets)
+- **Google Fonts** — webfonts (Geist, Geist Mono, plus optional Roboto/Poppins/Inter/etc.) preconnected and loaded via local `css2_*.css` files
+- **Unicorn Studio** — animated WebGL background script lazy-loaded from jsdelivr CDN to render the project `jAuGBjg92zfXiGbRlnyG`
+- **Vanilla JavaScript** — DOMContentLoaded-driven typewriter animation and IntersectionObserver-based counter for the 99.99% stat
+- **CSS animations / keyframes** — `fadeInUp`, `blink`, `float`, `terminal-reveal`, `subtle-glow`, `shimmer`, `bar1`–`bar7` for hero, network bars, terminal log and integration glow
+- **CSS gradient borders** — shared `--border-gradient` mask trick for buttons and the IDE/code panel
+- **HTML/CSS** — semantic sections, `<iframe>`-friendly self-contained markup

@@ -20,7 +20,7 @@ MAPA = {
 }
 SETORES = ['agricultura', 'manufatura', 'construcao', 'comercio', 'transportes', 'outros_setores']
 ROTULOS = ['Agro, silvicultura e pesca', 'Manufatura', 'Construção', 'Comércio e hospedagem', 'Transportes e comunicação', 'Outros setores']
-CORES = ['#788C67', '#267B77', '#D29A57', '#529DA0', '#8974AE', '#D7E2E3']
+CORES = ['#67DDD2', '#8DB9FF', '#F4B86A', '#BC9CEB', '#8FC79C', '#426073']
 NOMES = {'Brazil':'Brasil','Germany':'Alemanha','United States':'Estados Unidos','India':'Índia','China':'China','France':'França','Italy':'Itália','Spain':'Espanha','Japan':'Japão','South Africa':'África do Sul','Argentina':'Argentina','Portugal':'Portugal','Canada':'Canadá','Mexico':'México','United Kingdom':'Reino Unido','Russian Federation':'Rússia','Republic of Korea':'Coreia do Sul','Australia':'Austrália','Switzerland':'Suíça'}
 
 def nome(pais): return NOMES.get(pais, pais)

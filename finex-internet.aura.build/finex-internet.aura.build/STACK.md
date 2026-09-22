@@ -1,0 +1,12 @@
+- **Tailwind CSS v3.4.17** — utility-first CSS framework that drives almost all layout, color, spacing and typography classes
+- **Lucide** — icon library used for inline UI icons via the `lucide.createIcons()` runtime
+- **GSAP** — animation engine used to power the staggered word reveal in section headings
+- **GSAP ScrollTrigger** — GSAP plugin that ties the staggered reveal animations to scroll position
+- **UnicornStudio** — interactive 3D/visual runtime used to render the animated hero background (`data-us-project="bKN5upvoulAmWvInmHza"`)
+- **Plus Jakarta Sans** — default body font set on `<body>`
+- **Oswald** — display font used by uppercase section headings (`.font-oswald`)
+- **Geist, Roboto, Montserrat, Poppins, Playfair Display, Instrument Serif, Merriweather, Bricolage Grotesque, Manrope, Space Grotesk, Work Sans, PT Serif, Geist Mono, Space Mono, Quicksand, Nunito, Newsreader, Google Sans Flex, DM Sans, Cormorant Garamond** — additional Google Fonts loaded as `font-*` helper classes
+- **IntersectionObserver API** — drives `.aura-reveal`, `.animate-on-scroll` reveals and the testimonial-section active-state carousel
+- **Iconify Icon (`<iconify-icon>`)** — web component used to render a single Solar arrow icon inside the final CTA (provided by the Aura editor's resource script)
+- **Aura editor runtime** — the `lucide_latest_*.es`, `resource_*.es`, and `unicornStudio_*.js` shipped scripts that bootstrap the editor's components and the third-party libraries above
+- **Aura Supabase token firewall** — site-injected guard that patches `localStorage`, `sessionStorage`, `document.cookie`, `fetch`, `XMLHttpRequest`, `sendBeacon`, and `WebSocket` to block Supabase auth tokens and sensitive Supabase requests

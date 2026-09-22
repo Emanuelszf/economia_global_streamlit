@@ -1,0 +1,12 @@
+// Initialize Unicorn Studio background runtime from CDN
+!function(){
+  if(!window.UnicornStudio){
+    window.UnicornStudio={isInitialized:!1};
+    var i=document.createElement("script");
+    i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.2/dist/unicornStudio.umd.js";
+    i.onload=function(){
+      window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0);
+    };
+    (document.head || document.body).appendChild(i);
+  }
+}();

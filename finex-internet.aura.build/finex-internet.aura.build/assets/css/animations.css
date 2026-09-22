@@ -1,0 +1,63 @@
+/* Aura entrance reveal animation (fade + lift + blur) */
+@keyframes aura-reveal {
+  0%   { opacity: 0; transform: translateY(24px); filter: blur(8px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.aura-reveal {
+  animation: aura-reveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-play-state: paused;
+}
+.aura-reveal.is-visible {
+  animation-play-state: running;
+}
+
+/* Sequence intro animation used via [animation:animationIn_...] utilities */
+@keyframes animationIn {
+  0%   { opacity: 0; transform: translateY(30px); filter: blur(8px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+}
+
+/* Animate-on-scroll: paused by default, runs when JS adds .animate */
+.animate-on-scroll { animation-play-state: paused !important; }
+.animate-on-scroll.animate { animation-play-state: running !important; }
+
+/* CMS shimmer loading placeholder */
+@keyframes cms-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+.cms-loading {
+  position: relative;
+  color: transparent !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  background: linear-gradient(90deg,
+    rgba(128, 128, 128, 0.1) 25%,
+    rgba(128, 128, 128, 0.2) 50%,
+    rgba(128, 128, 128, 0.1) 75%
+  ) !important;
+  background-size: 200% 100% !important;
+  animation: cms-shimmer 1.5s infinite !important;
+  border-radius: 12px;
+  min-height: 1em;
+  min-width: 3em;
+  overflow: hidden;
+}
+.cms-loading * { visibility: hidden !important; }
+.cms-loading img { opacity: 0 !important; }
+
+/* Word-by-word reveal helpers (used by GSAP staggered reveal) */
+.reveal-word-mask  { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.reveal-word-inner { display: inline-block; transform: translateY(110%); will-change: transform; }
+
+/* Border beam rotation for hero CTA */
+@keyframes borderBeamRotation {
+  0%   { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Conic shimmer rotation used by hero CTA shimmer ring */
+@keyframes rotate-gradient {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

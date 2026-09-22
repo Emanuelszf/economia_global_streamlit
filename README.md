@@ -38,6 +38,7 @@ Após instalar as dependências, os dados e gráficos são locais. Não é neces
 ## Navegar
 
 - Escolha a análise no menu lateral ou use Anterior/Próxima ao final da página.
+- Ajuste país e ano nos filtros acima dos indicadores e gráficos.
 - O país e ano persistem durante a navegação. Ao mudar para um país sem o ano escolhido, o painel seleciona seu último ano disponível.
 - Evolução e estrutura permitem escolher o início do intervalo; o ano de referência define o final.
 - Em Evolução, abra o controle de comparação e ative os comparadores. O índice exige PIB positivo no mesmo ano-base para todas as séries.
@@ -51,7 +52,7 @@ Após instalar as dependências, os dados e gráficos são locais. Não é neces
 - `app.py`: interface, navegação, filtros, textos e exportações.
 - `analytics.py`: leitura, validação e cálculo dos indicadores.
 - `charts.py`: figuras Plotly.
-- `style.css` e `.streamlit/config.toml`: estilo e tema claro.
+- `design-system-economia-global/tokens.css`, `style.css` e `.streamlit/config.toml`: design system Atlas e tema escuro.
 - `dados/global_economy_indicators.csv`: base original, sem alterações.
 
 O notebook anterior continua útil como material de estudo. O dashboard usa as mesmas definições e preserva valores ausentes.

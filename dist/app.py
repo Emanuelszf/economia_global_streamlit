@@ -9,8 +9,11 @@ import streamlit as st
 from analytics import carregar, nome, numero, serie_pais, composicao, amostra_renda, SETORES, ROTULOS
 import charts
 
-st.set_page_config(page_title='Economia Global · Painel acadêmico',page_icon='▥',layout='wide',initial_sidebar_state='expanded')
-st.markdown('<style>'+Path(__file__).with_name('style.css').read_text(encoding='utf-8')+'</style>',unsafe_allow_html=True)
+st.set_page_config(page_title='Atlas · Economia Global',page_icon='◈',layout='wide',initial_sidebar_state='expanded')
+RAIZ = Path(__file__).resolve().parent
+tokens = RAIZ.joinpath('design-system-economia-global/tokens.css').read_text(encoding='utf-8')
+estilos = RAIZ.joinpath('style.css').read_text(encoding='utf-8')
+st.markdown(f'<style>{tokens}\n{estilos}</style>',unsafe_allow_html=True)
 
 @st.cache_data(show_spinner=False)
 def dados_revisados(): return carregar()
@@ -38,17 +41,14 @@ def resetar():
 def mudar_pagina(indice): ss.pagina=PAGINAS[indice]
 
 with st.sidebar:
-    st.markdown('<div class="sidebar-brand"><span class="brand-mark" aria-hidden="true">▥</span><div><div class="sidebar-title">Economia Global</div><div class="sidebar-sub">Painel de análise</div></div></div><div class="sidebar-section">EXPLORAR</div>',unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-brand"><span class="brand-mark" aria-hidden="true">A</span><div><div class="sidebar-title">ATLAS</div><div class="sidebar-sub">ECONOMIA GLOBAL</div></div></div><div class="sidebar-section">NAVEGAÇÃO</div>',unsafe_allow_html=True)
     st.radio('Análises',PAGINAS,key='pagina',label_visibility='collapsed')
     st.divider()
-    st.markdown('<div class="sidebar-section">CONTEXTO</div>',unsafe_allow_html=True)
-    st.selectbox('País em foco',sorted(d.pais.unique(),key=nome),format_func=nome,key='pais')
-    anos=sorted(d.loc[d.pais.eq(ss.pais),'ano'].unique().tolist(),reverse=True)
-    if ss.ano not in anos:ss.ano=anos[0]
-    st.selectbox('Ano de referência',anos,key='ano',help='Apenas anos disponíveis para o país em foco. Nas comparações, todas as economias usam este mesmo ano.')
-    st.button('Restaurar Brasil · 2021',on_click=resetar,use_container_width=True)
+    st.markdown('<div class="sidebar-section">SOBRE A BASE</div>',unsafe_allow_html=True)
     st.caption(f'Base histórica: {d.ano.min()}–{d.ano.max()}\n\n{d.pais.nunique()} países/economias · {numero(len(d),0)} registros')
 
+anos=sorted(d.loc[d.pais.eq(ss.pais),'ano'].unique().tolist(),reverse=True)
+if ss.ano not in anos:ss.ano=anos[0]
 pais=ss.pais;ano=int(ss.ano);idx=PAGINAS.index(ss.pagina)
 f=d.loc[d.pais.eq(pais)&d.ano.eq(ano)].iloc[0]
 prev=d.loc[d.pais.eq(pais)&d.ano.eq(ano-1)]
@@ -61,9 +61,19 @@ PERGUNTAS=['Tamanho, renda e inserção internacional em uma visão conjunta.',
            'Como consumo, investimento e comércio exterior se conciliam com o PIB?',
            'Qual é o peso dos fluxos comerciais nas economias selecionadas?',
            'Como a renda por habitante se relaciona com a participação agrícola?']
-st.markdown(f'<div class="page-eyebrow"><span class="eyebrow-dot"></span> OBSERVATÓRIO ECONÔMICO <span class="eyebrow-separator">/</span> ANÁLISE {idx+1:02d}</div>',unsafe_allow_html=True)
+st.markdown(f'<div class="atlas-topbar"><span>ATLAS <span class="topbar-divider">/</span> <strong>{TITULOS[idx]}</strong></span><span class="topbar-status"><span class="status-dot"></span> BASE HISTÓRICA {d.ano.min()}–{d.ano.max()}</span></div>',unsafe_allow_html=True)
+st.markdown(f'<div class="page-eyebrow"><span class="eyebrow-line"></span> INTELIGÊNCIA ECONÔMICA <span class="eyebrow-separator">/</span> ANÁLISE {idx+1:02d}</div>',unsafe_allow_html=True)
 st.title(TITULOS[idx])
-st.markdown(f'<div class="question">{PERGUNTAS[idx]}</div><div class="context"><span class="context-label">RECORTE ATUAL</span><span class="context-pill">{escape(nome(pais))}</span><span class="context-pill">{ano}</span><small>ETAPA {idx+1:02d} DE 06</small></div>',unsafe_allow_html=True)
+st.markdown(f'<div class="question">{PERGUNTAS[idx]}</div>',unsafe_allow_html=True)
+with st.container(border=True,key='atlas_filters'):
+    filtro_pais,filtro_ano,filtro_reset=st.columns([2.2,1.1,1.3],vertical_alignment='bottom')
+    with filtro_pais:
+        st.selectbox('País em foco',sorted(d.pais.unique(),key=nome),format_func=nome,key='pais')
+    with filtro_ano:
+        st.selectbox('Ano de referência',anos,key='ano',help='Apenas anos disponíveis para o país em foco. Nas comparações, todas as economias usam este mesmo ano.')
+    with filtro_reset:
+        st.button('Restaurar Brasil · 2021',on_click=resetar,use_container_width=True)
+st.markdown(f'<div class="context"><span class="context-label">RECORTE ATUAL</span><span class="context-pill">{escape(nome(pais))}</span><span class="context-pill">{ano}</span><small>VISÃO {idx+1:02d} / 06</small></div>',unsafe_allow_html=True)
 
 def leitura(texto): st.markdown('<div class="reading">'+texto+'</div>',unsafe_allow_html=True)
 def desenhar(fig,key):
@@ -76,7 +86,7 @@ def intervalo():
     mi=int(d.ano.min());ma=ano
     if ss.periodo_inicio>ma:ss.periodo_inicio=ma
     if mi==ma:return mi,ma
-    st.slider('Início da série',mi,ma,key='periodo_inicio',help='O final do intervalo é o ano de referência, no menu lateral.')
+    st.slider('Início da série',mi,ma,key='periodo_inicio',help='O final do intervalo é o ano de referência selecionado acima.')
     return int(ss.periodo_inicio),ma
 
 def grupo_comparacao():
@@ -93,7 +103,7 @@ def spark(col):
             if p:paths.append(' '.join(p));p=[]
         else:p.append(f'{i*76/max(len(s)-1,1):.1f},{23-(v-lo)/amp*21:.1f}')
     if p:paths.append(' '.join(p))
-    lines=''.join(f'<polyline points="{x}" fill="none" stroke="#2F8E88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' for x in paths)
+    lines=''.join(f'<polyline points="{x}" fill="none" stroke="#67DDD2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' for x in paths)
     return '<svg class="kpi-spark" viewBox="0 0 78 25" aria-hidden="true">'+lines+'</svg>'
 
 def delta(col,percent=False):
@@ -103,6 +113,7 @@ def delta(col,percent=False):
     return f'{numero((f[col]/prev[col]-1)*100)}% ante {ano-1}'
 
 if idx==0:
+    st.markdown(f'<div class="atlas-section-heading"><h2>Indicadores principais</h2><span>{escape(nome(pais))} / {ano}</span></div>',unsafe_allow_html=True)
     cards=[('PIB registrado',numero(f.pib/1e9),'bilhões de u.m. da base','pib',False),
            ('População',numero(f.populacao/1e6),'milhões de habitantes','populacao',False),
            ('RNB por habitante',numero(f.rnb_pc,0),'USD por habitante','rnb_pc',False),

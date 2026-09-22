@@ -1,0 +1,66 @@
+/* Scroll fixes for offline viewing — overrides JS-driven init states */
+html, body {
+  overflow: auto !important;
+  overflow-x: hidden !important;
+  height: auto !important;
+  min-height: 100% !important;
+  scroll-behavior: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Force visibility for common app shells */
+body, .wrapper, main, #__next, #app, .page, .content {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+/* Disable loaders / preloaders */
+.loader, .preloader, .loading, [class*="loader"], [class*="preloader"] {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* Show elements typically hidden for entrance animations */
+.word-inner, .char, .line, [data-aos], [data-scroll],
+.hero-text span, .hero-fade, [class*="hero"] span {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+/* Reset Tailwind animation translate utilities */
+.translate-y-full, .translate-x-full, .-translate-y-full, .-translate-x-full,
+.translate-y-1\/2, .-translate-y-1\/2, .translate-y-\[100\%\], .translate-y-\[110\%\] {
+  transform: none !important;
+}
+
+/* Force visibility on opacity-0 patterns */
+.opacity-0, [class*="opacity-0"] { opacity: 1 !important; }
+
+/* Reset scale transforms used for animations */
+.scale-0, .scale-50, .scale-75 { transform: none !important; }
+
+/* Lenis smooth-scroll wrappers */
+html.lenis, html.lenis-smooth,
+body.lenis, body.lenis-smooth,
+.lenis-wrapper, .lenis-content,
+[data-lenis-prevent], [data-scroll-container] {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+/* Fix flex containers that might cut off content */
+body.flex.items-center,
+body.flex.justify-center {
+  align-items: flex-start !important;
+  min-height: 100vh;
+  height: auto !important;
+}
+
+/* Ensure main content scrolls */
+main, #__next, #__nuxt, #app, .main-content {
+  overflow: visible !important;
+  height: auto !important;
+}
