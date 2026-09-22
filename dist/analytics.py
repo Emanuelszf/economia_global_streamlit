@@ -78,3 +78,40 @@ def amostra_renda(d,ano):
     a=d[d.ano.eq(ano)].copy()
     ok=a.rnb_pc.gt(0)&a.agricultura_pct.between(0,100)&a[['rnb_pc','agricultura_pct']].notna().all(axis=1)
     return a.loc[ok].copy(),int((~ok).sum())
+
+def comparadores_proximos(d,pais,ano,indicador,limite=4):
+    """Ordena economias pelo indicador escolhido no mesmo ano."""
+    if indicador not in ('rnb_pc','abertura_pct'):
+        raise ValueError('Indicador de comparação inválido.')
+    a=d.loc[d.ano.eq(ano),['pais',indicador]].dropna().copy()
+    a=a.loc[a[indicador].gt(0) if indicador=='rnb_pc' else a[indicador].ge(0)]
+    foco=a.loc[a.pais.eq(pais),indicador]
+    if foco.empty:return []
+    valor=float(foco.iloc[0])
+    outros=a.loc[a.pais.ne(pais)].copy()
+    if indicador=='rnb_pc':
+        outros['distancia']=np.abs(np.log(outros[indicador]/valor))
+    else:
+        outros['distancia']=(outros[indicador]-valor).abs()
+    return outros.sort_values(['distancia','pais']).pais.head(limite).tolist()
+
+def cobertura_ano(d,pais,ano):
+    """Cobertura dos indicadores usados nas seis análises."""
+    a=d.loc[d.ano.eq(ano)]
+    setores=[s+'_pct' for s in SETORES]
+    demanda=['consumo_familias_pct','consumo_governo_pct','investimento_pct',
+             'exportacoes_pct','importacoes_pct','ajuste_demanda_pct']
+    disponiveis={
+        'PIB registrado':a.pib.notna(),
+        'RNB por habitante positiva':a.rnb_pc.gt(0),
+        'Estrutura produtiva completa':a[setores].notna().all(axis=1)&a[setores].ge(0).all(axis=1),
+        'Demanda completa':a[demanda].notna().all(axis=1),
+        'Exportações e importações':a[['exportacoes_pct','importacoes_pct']].notna().all(axis=1),
+    }
+    foco=a.pais.eq(pais)
+    tabela=pd.DataFrame([
+        {'Indicador':rotulo,'Economias com dados':int(ok.sum()),
+         'País em foco':'Disponível' if bool(ok.loc[foco].iloc[0]) else 'Indisponível'}
+        for rotulo,ok in disponiveis.items()
+    ])
+    return tabela,len(a)

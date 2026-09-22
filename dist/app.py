@@ -6,7 +6,8 @@ from html import escape
 import numpy as np
 import pandas as pd
 import streamlit as st
-from analytics import carregar, nome, numero, serie_pais, composicao, amostra_renda, SETORES, ROTULOS
+from analytics import (carregar, nome, numero, serie_pais, composicao, amostra_renda,
+                       comparadores_proximos, cobertura_ano, SETORES, ROTULOS)
 import charts
 
 st.set_page_config(page_title='Análise econômica global',page_icon='◈',layout='wide',initial_sidebar_state='expanded')
@@ -39,6 +40,9 @@ def resetar():
     ss.comparadores=['China','India','United States','Germany']
 
 def mudar_pagina(indice): ss.pagina=PAGINAS[indice]
+
+def aplicar_sugestao(indicador):
+    ss.comparadores=comparadores_proximos(d,ss.pais,int(ss.ano),indicador)
 
 with st.sidebar:
     st.markdown('<div class="sidebar-brand"><span class="brand-mark" aria-hidden="true">◈</span><div><div class="sidebar-title">Análise econômica global</div></div></div><div class="sidebar-section">NAVEGAÇÃO</div>',unsafe_allow_html=True)
@@ -91,6 +95,18 @@ def intervalo():
 
 def grupo_comparacao():
     st.multiselect('Economias para comparar',sorted(d.pais.unique(),key=nome),key='comparadores',format_func=nome,max_selections=7,help='O país em foco sempre participa. Selecione até sete comparadores.')
+    renda=comparadores_proximos(d,pais,ano,'rnb_pc')
+    abertura=comparadores_proximos(d,pais,ano,'abertura_pct')
+    sugerir_renda,sugerir_abertura=st.columns(2)
+    with sugerir_renda:
+        st.button('Sugerir por renda',on_click=aplicar_sugestao,args=('rnb_pc',),
+                  disabled=not renda,use_container_width=True,
+                  help='Seleciona até quatro economias com RNB por habitante mais próxima no ano escolhido.')
+    with sugerir_abertura:
+        st.button('Sugerir por abertura',on_click=aplicar_sugestao,args=('abertura_pct',),
+                  disabled=not abertura,use_container_width=True,
+                  help='Seleciona até quatro economias com abertura comercial mais próxima no ano escolhido.')
+    st.caption('As sugestões usam um indicador por vez e o mesmo ano. Você pode editar a seleção acima.')
     return list(dict.fromkeys([pais]+ss.comparadores))
 
 def spark(col):
@@ -113,6 +129,18 @@ def delta(col,percent=False):
     return f'{numero((f[col]/prev[col]-1)*100)}% ante {ano-1}'
 
 if idx==0:
+    st.markdown('<div class="dashboard-section-heading"><h2>Comece por uma pergunta</h2><span>EXPLORE OS DADOS</span></div>',unsafe_allow_html=True)
+    with st.container(key='guided_questions'):
+        perguntas=st.columns(3)
+        with perguntas[0]:
+            st.markdown('<div class="guided-label">TRAJETÓRIA</div><div class="guided-title">Como o PIB registrado mudou?</div>',unsafe_allow_html=True)
+            st.button('Ver evolução →',on_click=mudar_pagina,args=(1,),use_container_width=True)
+        with perguntas[1]:
+            st.markdown('<div class="guided-label">ESTRUTURA</div><div class="guided-title">Como a produção se transformou?</div>',unsafe_allow_html=True)
+            st.button('Ver setores →',on_click=mudar_pagina,args=(2,),use_container_width=True)
+        with perguntas[2]:
+            st.markdown('<div class="guided-label">COMPARAÇÃO</div><div class="guided-title">Como o comércio se compara?</div>',unsafe_allow_html=True)
+            st.button('Ver setor externo →',on_click=mudar_pagina,args=(4,),use_container_width=True)
     st.markdown(f'<div class="dashboard-section-heading"><h2>Indicadores principais</h2><span>{escape(nome(pais))} / {ano}</span></div>',unsafe_allow_html=True)
     cards=[('PIB registrado',numero(f.pib/1e9),'bilhões de u.m. da base','pib',False),
            ('População',numero(f.populacao/1e6),'milhões de habitantes','populacao',False),
@@ -197,6 +225,12 @@ elif idx==5:
     else:st.info('Não há observações válidas neste ano.')
     st.caption(f'{excluidos} observações do ano excluídas por ausência ou valores inválidos. RNB por habitante = RNB / população, em USD, sem ajuste por paridade do poder de compra. Cada ponto representa uma economia com o mesmo peso visual.')
     tabela_exportacao(a[['nome','ano','rnb_pc','agricultura_pct']],'renda_estrutura.csv')
+
+with st.expander('Cobertura e lacunas dos dados'):
+    cobertura,total=cobertura_ano(d,pais,ano)
+    st.caption(f'Em {ano}, a base contém registros para {total} economias. As contagens abaixo consideram apenas essas economias.')
+    st.dataframe(cobertura,use_container_width=True,hide_index=True)
+    st.caption('Disponível indica que os campos necessários à análise estão presentes e atendem às condições indicadas. A cobertura varia entre países e anos.')
 
 with st.expander('Fonte, definições e limites da análise'):
     st.markdown('**Fonte:** Global Economy Indicators.csv, arquivo fornecido ao projeto. O produtor e os metadados originais não foram confirmados. Unidade de observação: **país/economia × ano**. Países e territórios seguem os nomes e a cobertura da fonte.')

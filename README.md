@@ -39,6 +39,9 @@ Após instalar as dependências, os dados e gráficos são locais. Não é neces
 
 - Escolha a análise no menu lateral ou use Anterior/Próxima ao final da página.
 - Ajuste país e ano nos filtros acima dos indicadores e gráficos.
+- No Panorama, use as perguntas para abrir diretamente a análise correspondente.
+- Em Evolução econômica e Setor externo, use **Sugerir por renda** ou **Sugerir por abertura** para preencher os comparadores do ano; a seleção continua editável.
+- Abra **Cobertura e lacunas dos dados** para ver quais indicadores estão disponíveis no ano e país escolhidos.
 - O país e ano persistem durante a navegação. Ao mudar para um país sem o ano escolhido, o painel seleciona seu último ano disponível.
 - Evolução e estrutura permitem escolher o início do intervalo; o ano de referência define o final.
 - Em Evolução, abra o controle de comparação e ative os comparadores. O índice exige PIB positivo no mesmo ano-base para todas as séries.
